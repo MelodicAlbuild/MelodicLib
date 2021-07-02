@@ -1,22 +1,36 @@
-﻿using MelodicLib.lib;
+﻿using System;
+using System.IO;
+using MelodicLib.lib;
 using MelodicLib.lib.data;
 using MelodicLib.lib.manager;
 using MelodicLib.lib.scripts;
 using MelodicLib.lib.storage;
-using System;
-using System.IO;
 
 namespace MelodicLib {
-    public abstract class MelodicLib : GameMod, GlobalManager.View, GlobalStorage.View {
+    public abstract class MelodicLib : GameMod, IMelodicLib {
         public abstract string        modName            { get; }
         public abstract string        shortName          { get; }
-        public  GlobalManager globalManager      { get; }
-        public  GlobalStorage globalStorage      { get; }
+        public          GlobalManager globalManager      { get; }
+        public          GlobalStorage globalStorage      { get; }
+        public          MelodicLog    melodicLog         { get; }
+        public          MelodicDict   melodicDict        { get; }
+        public          ImportHandler importHandler      { get; }
+        public          ExportHandler exportHandler      { get; }
         public          string        PersistentDataPath => Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName;
 
-        public MelodicLib() {
+        protected MelodicLib() {
             globalManager = new GlobalManager(this);
             globalStorage = new GlobalStorage(this);
+            melodicLog    = new MelodicLog(this);
+            melodicDict   = new MelodicDict(this);
+            importHandler = new ImportHandler(this);
+            exportHandler = new ExportHandler(this);
+
+            Init();
+        }
+
+        // Avoids virtual methods calls in the constructor.
+        private void Init() {
             if (!Directory.Exists(PersistentDataPath)) {
                 // Create Main Project Directory and Log
                 Directory.CreateDirectory(PersistentDataPath);
@@ -33,32 +47,72 @@ namespace MelodicLib {
                 File.Create(PersistentDataPath + "/logs/Manager.log");
             }
         }
+
         public override void Load() {
             var lastWrite = File.GetLastWriteTime(typeof(MelodicLib).Assembly.Location);
-            MelodicLog.Log($"[{modName} | Main]: {modName} loaded, build time: {lastWrite.ToShortTimeString()}", true);
+            melodicLog.LogToMod($"[{modName} | Main]: {modName} loaded, build time: {lastWrite.ToShortTimeString()}", true);
 
             globalManager.Load();
             globalStorage.Load();
 
-            MelodicLog.Log($"[{modName} | Menu]: Managers Loaded without Error. Version Tags are now Enabled");
+            melodicLog.LogToMod($"[{modName} | Menu]: Managers Loaded without Error. Version Tags are now Enabled");
         }
-        public override void OnInitData() {
-            new MelodicDict();
-            new ImportHandler();
-            new ExportHandler();
 
-            if (GlobalStorage.managerData[0].enabled) {
-                MelodicLog.Log($"---{shortName} Items Begin---");
-                new MelodicItems().InitItems();
-                MelodicLog.Log($"[{modName} | Main]: Items Done.");
-                MelodicLog.Log($"---{shortName} Items End---");
+        public override void OnInitData() {
+            melodicDict.InitData();
+            importHandler.Import();
+            exportHandler.Export();
+
+            // All the entries in json will fill out the data here.
+            foreach (var kvp in globalStorage.managerData) {
+                var managerData = kvp.Value;
+                var identifier  = managerData.identifier;
+                if (!managerData.enabled) continue; // Ignore if disabled.
+
+                melodicLog.LogToMod($"---{shortName} {identifier} Begin---");
+
+                // This gets the target class for the data. The key is the 'identifier' from the json.
+                GetDataClass(identifier).Init();
+
+                melodicLog.LogToMod($"[{modName} | Main]: {identifier} Done.");
+                melodicLog.LogToMod($"---{shortName} {identifier} End---");
             }
 
-            MelodicDict.ReturnAllData();
+            melodicDict.ReturnAllData();
         }
 
         public void CopyData(string filePath, string destinationPath) {
             File.Copy(filePath, destinationPath);
         }
+
+        /**
+         * For a given identifier, it returns an instance of the class associated to it.
+         * Still Gregs Voodoo Shit, Even when explained.
+         */
+        public IHasData GetDataClass(string identifier) {
+            return identifier switch {
+                "categories" => new MelodicCategories(this),
+                "deposits" => new MelodicDeposits(this),
+                "items" => new MelodicItems(this),
+                "modules" => new MelodicModules(this),
+                "recipes" => new MelodicRecipes(this),
+                "stations" => new MelodicStations(this),
+                _ => throw new NotImplementedException($"No class found for {identifier}.")
+            };
+        }
+    }
+
+    // Totally done by Greg, Idfk how interfaces work. IT'S A MASTER INTERFACE AHHHHHHHHHHHHHHHHHHHHHHHHH
+    // One interface to rule them all, and in the dark ages of code, bind them.
+    public interface IMelodicLib {
+        string        modName            { get; }
+        string        shortName          { get; }
+        GlobalManager globalManager      { get; }
+        GlobalStorage globalStorage      { get; }
+        MelodicLog    melodicLog         { get; }
+        MelodicDict   melodicDict        { get; }
+        ImportHandler importHandler      { get; }
+        ExportHandler exportHandler      { get; }
+        string        PersistentDataPath { get; }
     }
 }

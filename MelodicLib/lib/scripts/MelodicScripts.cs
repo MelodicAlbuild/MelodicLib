@@ -1,18 +1,14 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace MelodicLib.lib.scripts
-{
-    class MelodicScripts
-    {
-        public static Sprite Sprite2(string iconpath)
-        {
-            var path = Path.Combine(MelodicLib.PersistentDataPath, iconpath);
-            if (!File.Exists(path))
-            {
-                MelodicLog.Log($"ERROR: [{MelodicLib.modName} | Items]: Specified Icon path not found: " + path);
+namespace MelodicLib.lib.scripts {
+    public static class MelodicScripts {
+        public static Sprite Sprite2(IMelodicLib view, string iconpath) {
+            var path = Path.Combine(view.PersistentDataPath, iconpath);
+            if (!File.Exists(path)) {
+                view.melodicLog.LogToMod($"ERROR: [{view.modName} | Items]: Specified Icon path not found: " + path);
 
-                Debug.LogError($"[{MelodicLib.modName} | Items]: Specified Icon path not found: " + path);
+                Debug.LogError($"[{view.modName} | Items]: Specified Icon path not found: " + path);
                 return null;
             }
             var bytes = File.ReadAllBytes(path);

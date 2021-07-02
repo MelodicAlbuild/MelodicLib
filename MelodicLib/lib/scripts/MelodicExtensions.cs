@@ -2,6 +2,7 @@
 using System.Reflection;
 using TMPro;
 using UnityEngine;
+
 namespace MelodicLib.lib.scripts
 {
     public static class MelodicExtensions
