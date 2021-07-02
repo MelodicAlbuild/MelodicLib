@@ -4,11 +4,15 @@ using System.Collections.Generic;
 
 namespace MelodicLib.lib.manager
 {
-    class GlobalStorage
+    public class GlobalStorage
     {
-        public static readonly Dictionary<Manager, string> globalStorage = new Dictionary<Manager, string>();
-        public static readonly ManagerController[] managerData = new ManagerController[11];
-        public GlobalStorage()
+        public  readonly Dictionary<Manager, string> globalStorage = new Dictionary<Manager, string>();
+        public readonly        ManagerController[]         managerData   = new ManagerController[11];
+        private readonly       View                        view;
+        public GlobalStorage(View view) {
+            this.view = view;
+        }
+        public void Load()
         {
             Populate();
             MelodicLog.Log("[Global Storage]: Population Complete");
@@ -40,7 +44,7 @@ namespace MelodicLib.lib.manager
 
         private void Populate()
         {
-            foreach (Manager manager in GlobalManager.manager.manager)
+            foreach (Manager manager in view.globalManager.manager)
             {
                 globalStorage[manager] = manager.identifier;
             }
@@ -52,6 +56,10 @@ namespace MelodicLib.lib.manager
             {
                 managerData[obj.Key.id] = new ManagerController() { id = obj.Key.id, identifier = obj.Value, enabled = obj.Key.enabled };
             }
+        }
+        // Totally done by Greg, Idfk how interfaces work.
+        public interface View {
+            GlobalManager globalManager { get; }
         }
     }
 

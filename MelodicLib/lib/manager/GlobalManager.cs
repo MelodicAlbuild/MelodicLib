@@ -6,9 +6,13 @@ using MelodicLib.lib.manager.scripts;
 
 namespace MelodicLib.lib.manager
 {
-    class GlobalManager
-    {
-        public GlobalManager()
+    public class GlobalManager {
+        private readonly View view;
+        public GlobalManager(View view) {
+            this.view = view;
+        }
+
+        public void Load()
         {
             MelodicLog.Log("[Global Manager]: Import Started");
             ManagerLog.Log("[Global Manager]: Import Started", true);
@@ -16,12 +20,16 @@ namespace MelodicLib.lib.manager
             MelodicLog.Log("[Global Manager]: Import Complete");
             ManagerLog.Log("[Global Manager]: Import Complete");
         }
-        public static Rootobject manager;
-        private static readonly string path = Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/magmateers/data/manager.json";
+        public Rootobject manager;
+        private readonly string path = view.PersistentDataPath + "/data/manager.json";
         private void Import()
         {
             var root = JsonConvert.DeserializeObject<Rootobject>(File.ReadAllText(path));
             manager = root;
+        }
+        // Totally done by Greg, Idfk how interfaces work.
+        public interface View {
+            string PersistentDataPath { get; }
         }
     }
 
