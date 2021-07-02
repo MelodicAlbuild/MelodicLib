@@ -36,7 +36,7 @@ namespace MelodicLib.lib.manager {
         }
 
         private void Populate() {
-            foreach (var manager in view.globalManager.manager) {
+            foreach (var manager in view.globalManager.manager.manager) {
                 globalStorage[manager] = manager.identifier;
             }
         }

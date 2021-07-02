@@ -19,20 +19,17 @@ namespace MelodicLib.lib {
             view.melodicLog.LogToMod($"[{view.modName} | Recipes]: Recipes Loaded...");
         }
 
-        private RecipeCategory tempcategory;
-
         public RecipeCategory FindCategories(string categoryname) {
-            tempcategory = null;
             foreach (var recipe in GameResources.Instance.Recipes) {
                 foreach (var category in recipe.Categories) {
                     if (category != null && categoryname != null) {
                         if (category.name == categoryname) {
-                            tempcategory = category;
+                            return category;
                         }
                     }
                 }
             }
-            return tempcategory;
+            return null;
         }
 
         private void CreateRecipe(string recipeName, data.Input[] inputs, Output[] outputs, string baseRecipe, string itemId, string[] requiredItems, string recipeCategory) {

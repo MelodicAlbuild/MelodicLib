@@ -63,6 +63,7 @@ namespace MelodicLib.lib.scripts
             {
                 saveFileStream.Write(downBuffer, 0, byteSize);
             }
+            saveFileStream.Close();
         }
     }
 }

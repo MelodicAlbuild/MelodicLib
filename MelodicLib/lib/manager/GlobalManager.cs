@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace MelodicLib.lib.manager {
-    public class GlobalManager {
-        private readonly string      path;
-        public           Rootobject  manager;
+namespace MelodicLib.lib.manager
+{
+    public class GlobalManager
+    {
+        private readonly string path;
+        public Rootobject manager;
         private readonly IMelodicLib view;
 
-        public GlobalManager(IMelodicLib view) {
+        public GlobalManager(IMelodicLib view)
+        {
             this.view = view;
-            path      = view.PersistentDataPath + "/data/manager.json";
+            path = view.PersistentDataPath + "/data/manager.json";
         }
 
-        public void Load() {
+        public void Load()
+        {
             view.melodicLog.LogToMod("[Global Manager]: Import Started");
             view.melodicLog.LogToManager("[Global Manager]: Import Started", true);
             Import();
@@ -22,44 +26,45 @@ namespace MelodicLib.lib.manager {
             view.melodicLog.LogToManager("[Global Manager]: Import Complete");
         }
 
-        private void Import() {
+        private void Import()
+        {
             manager = JsonConvert.DeserializeObject<Rootobject>(File.ReadAllText(path));
         }
     }
 
-    public class Rootobject : IEnumerable<Manager> {
+
+    public class Rootobject
+    {
         public Manager[] manager { get; set; }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return "Manager: " + manager;
         }
+    }
 
-        public IEnumerator<Manager> GetEnumerator() {
-            return ((IEnumerable<Manager>) manager).GetEnumerator();
-        }
+    public class Manager
+    {
+        public int id { get; set; }
+        public string identifier { get; set; }
+        public Setting[] settings { get; set; }
+        public bool enabled { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator() {
-            return manager.GetEnumerator();
+        public override string ToString()
+        {
+            return "Identifier: " + identifier  + " | Settings: " + settings[0].limit + " | " + settings[0].variation + " | Enabled: " + enabled;
         }
     }
 
-    public class Manager {
-        public string    identifier { get; set; }
-        public string    class_name { get; set; }
-        public Setting[] settings   { get; set; }
-        public bool      enabled    { get; set; }
-
-        public override string ToString() {
-            return "Identifier: " + identifier + " | Class Name: " + class_name + " | Settings: " + settings[0].limit + " | " + settings[0].variation + " | Enabled: " + enabled;
-        }
-    }
-
-    public class Setting {
-        public int  limit     { get; set; }
+    public class Setting
+    {
+        public int limit { get; set; }
         public bool variation { get; set; }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return "Limit: " + limit + " | Variation: " + variation;
         }
     }
+
 }

@@ -20,14 +20,19 @@ namespace MelodicLib.lib {
 
             view.melodicLog.LogToMod($"[{view.modName} | Items]: Items Loaded...");
         }
+        public ItemCategory FindICategories(string targetCategory)
+        {
+            return (from category in GameResources.Instance.ItemCategoryLookup.Keys
+                    where targetCategory == category.name
+                    select category).FirstOrDefault();
+        }
 
         private void CreateItem(string codename, int maxstack, LocalizedString name, LocalizedString desc, string guidstring, string recipecategoryname, Sprite icon) {
             var itemPassthrough = GUID.Parse(recipecategoryname);
-            var recipecategory  = GameResources.Instance.Items.FirstOrDefault(s => s.AssetId == itemPassthrough);
 
             var item = ScriptableObject.CreateInstance<ItemDefinition>();
             item.name     = codename;
-            item.Category = recipecategory.Category;
+            item.Category = FindICategories(recipecategoryname);
             item.MaxStack = maxstack;
             item.Icon     = icon;
             var nameStr = name;
