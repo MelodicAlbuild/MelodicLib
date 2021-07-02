@@ -8,7 +8,7 @@ using System.IO;
 
 namespace MelodicLib
 {
-    public class MelodicLib : GameMod
+    public abstract class MelodicLib : GameMod
     {
         public static string modName = "";
         public static string shortName = "";
@@ -21,18 +21,18 @@ namespace MelodicLib
             if(!Directory.Exists(Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName))
             {
                 // Create Main Project Directory and Log
-                Directory.CreateDirectory(Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName);
-                File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName + "/" + shortName + ".log");
+                Directory.CreateDirectory(PersistentDataPath);
+                File.Create(PersistentDataPath + "/" + shortName + ".log");
 
                 // Create Data Directory
-                Directory.CreateDirectory(Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName + "/data");
+                Directory.CreateDirectory(PersistentDataPath + "/data");
 
                 // Create Logs Directory
-                Directory.CreateDirectory(Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName + "/logs");
+                Directory.CreateDirectory(PersistentDataPath + "/logs");
 
                 // Create Other Log Files
-                File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName + "/logs/Dict.log");
-                File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName + "/logs/Manager.log");
+                File.Create(PersistentDataPath + "/logs/Dict.log");
+                File.Create(PersistentDataPath + "/logs/Manager.log");
             }
         }
         public override void Load()
@@ -52,6 +52,14 @@ namespace MelodicLib
             new ExportHandler();
 
             if (GlobalStorage.managerData[0].enabled)
+            {
+                MelodicLog.Log($"---{shortName} Items Begin---");
+                new MelodicItems().InitItems();
+                MelodicLog.Log($"[{modName} | Main]: Items Done.");
+                MelodicLog.Log($"---{shortName} Items End---");
+            }
+
+            if (GlobalStorage.managerData[1].enabled)
             {
                 MelodicLog.Log($"---{shortName} Items Begin---");
                 new MelodicItems().InitItems();
