@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MelodicLib.lib.scripts;
@@ -20,11 +21,15 @@ namespace MelodicLib.lib {
 
             view.melodicLog.LogToMod($"[{view.modName} | Items]: Items Loaded...");
         }
-        public ItemCategory FindICategories(string targetCategory)
+        public ItemCategory FindICategories(string categoryname)
         {
-            return (from category in GameResources.Instance.ItemCategoryLookup.Keys
-                    where targetCategory == category.name
-                    select category).FirstOrDefault();
+            if (categoryname == null) throw new InvalidOperationException("Item Category is Null... FUCK OFF");
+            foreach (var recipe in GameResources.Instance.Items)
+            {
+                var category = recipe.Category;
+                if (category?.name == categoryname) return category;
+            }
+            return null;
         }
 
         private void CreateItem(string codename, int maxstack, LocalizedString name, LocalizedString desc, string guidstring, string recipecategoryname, Sprite icon) {
