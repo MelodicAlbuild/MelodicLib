@@ -69,16 +69,14 @@
   ],
   "deposits": [
     {
-      {
-        "underground": false,
-        "percent_replace": 0,
-        "output_name": "",
-        "yields": [
-          0,
-          0
-        ],
-        "replaced_item": ""
-      }
+      "underground": false,
+      "percent_replace": 0,
+      "output_name": "",
+      "yields": [
+        0,
+        0
+      ],
+      "replaced_item": ""
     }
   ],
   "categories": [

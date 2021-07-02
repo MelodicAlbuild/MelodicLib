@@ -17,7 +17,6 @@ namespace MelodicLib.lib.scripts
 
         private void CreateData()
         {
-
             downloadFile("https://raw.githubusercontent.com/MelodicAlbuild/MelodicLib/master/MelodicLib/defaults/manager.json", Path.Combine(view.PersistentDataPath, "data", "manager.json"));
             downloadFile("https://raw.githubusercontent.com/MelodicAlbuild/MelodicLib/master/MelodicLib/defaults/data.json", Path.Combine(view.PersistentDataPath, "data", "data.json"));
         }
