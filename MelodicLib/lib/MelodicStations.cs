@@ -67,7 +67,7 @@ namespace MelodicLib.lib {
             return sprite;
         }
 
-        private void CreateStation(FactoryType factoryType, string codename, int maxStack, LocalizedString name, LocalizedString desc, string guidString, Sprite icon, string variantname, RecipeCategory[] categories) {
+        public void CreateStation(FactoryType factoryType, string codename, int maxStack, LocalizedString name, LocalizedString desc, string guidString, Sprite icon, string variantname, RecipeCategory[] categories) {
             var category = GameResources.Instance.Items.FirstOrDefault(s => s.AssetId == productionStationGUID)?.Category;
             var item     = ScriptableObject.CreateInstance<ItemDefinition>();
             if (item == null) {

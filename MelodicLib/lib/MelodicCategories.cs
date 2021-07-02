@@ -26,7 +26,7 @@ namespace MelodicLib.lib {
             view.melodicLog.LogToMod($"[{view.modName} | Categories]: Categories Loaded...");
         }
 
-        private void CreateFactoryCategory(string name, string categoryId) {
+        public void CreateFactoryCategory(string name, string categoryId) {
             var ok = ScriptableObject.CreateInstance<FactoryType>();
             ok.name = name;
             var guid   = GUID.Parse(categoryId);
@@ -37,7 +37,7 @@ namespace MelodicLib.lib {
             view.melodicLog.LogToMod($"[{view.modName} | Categories]: Factory Category with name " + name + " has been loaded");
         }
 
-        private void CreateModuleCategory(string name, string categoryId) {
+        public void CreateModuleCategory(string name, string categoryId) {
             var ok = ScriptableObject.CreateInstance<ModuleCategory>();
             ok.name = name;
             var guid   = GUID.Parse(categoryId);
@@ -48,7 +48,7 @@ namespace MelodicLib.lib {
             view.melodicLog.LogToMod($"[{view.modName} | Categories]: Module Category with name " + name + " has been loaded");
         }
 
-        private void CreateRecipeCategory(string name, string categoryId) {
+        public void CreateRecipeCategory(string name, string categoryId) {
             var Forge = ScriptableObject.CreateInstance<RecipeCategory>();
             Forge.name = name;
             var guid   = GUID.Parse(categoryId);
@@ -59,7 +59,7 @@ namespace MelodicLib.lib {
             view.melodicLog.LogToMod($"[{view.modName} | Categories]: Recipe Category with name " + name + " has been loaded");
         }
 
-        private void CreateItemCategory(string name, string categoryId) {
+        public void CreateItemCategory(string name, string categoryId) {
             var Forge = ScriptableObject.CreateInstance<ItemCategory>();
             Forge.name = name;
             var guid   = GUID.Parse(categoryId);

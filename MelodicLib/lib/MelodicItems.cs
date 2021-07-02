@@ -32,7 +32,7 @@ namespace MelodicLib.lib {
             return null;
         }
 
-        private void CreateItem(string codename, int maxstack, LocalizedString name, LocalizedString desc, string guidstring, string recipecategoryname, Sprite icon) {
+        public void CreateItem(string codename, int maxstack, LocalizedString name, LocalizedString desc, string guidstring, string recipecategoryname, Sprite icon) {
             var item = ScriptableObject.CreateInstance<ItemDefinition>();
             item.name     = codename;
             item.Category = FindICategories(recipecategoryname);

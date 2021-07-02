@@ -32,7 +32,7 @@ namespace MelodicLib.lib {
             return null;
         }
 
-        private void CreateRecipe(string recipeName, data.Input[] inputs, Output[] outputs, string baseRecipe, string itemId, string[] requiredItems, string recipeCategory) {
+        public void CreateRecipe(string recipeName, data.Input[] inputs, Output[] outputs, string baseRecipe, string itemId, string[] requiredItems, string recipeCategory) {
             var outputItem = GameResources.Instance.Items.FirstOrDefault(s => s.name == outputs[0].output_name);
             var finalInput = new InventoryItem[inputs.Length];
             var i          = 0;
