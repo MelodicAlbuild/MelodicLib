@@ -28,8 +28,6 @@ namespace MelodicLib.lib {
         }
 
         private void CreateItem(string codename, int maxstack, LocalizedString name, LocalizedString desc, string guidstring, string recipecategoryname, Sprite icon) {
-            var itemPassthrough = GUID.Parse(recipecategoryname);
-
             var item = ScriptableObject.CreateInstance<ItemDefinition>();
             item.name     = codename;
             item.Category = FindICategories(recipecategoryname);
