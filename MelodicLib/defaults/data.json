@@ -1,0 +1,91 @@
+{
+  "items": [
+    {
+      "item_name": "",
+      "stack_size": 0,
+      "name": "",
+      "description": "",
+      "guid": "",
+      "base_item": "",
+      "icon_path": ""
+    }
+  ],
+  "recipes": [
+    {
+      "recipe_name": "",
+      "input_amount": 0,
+      "inputs": [
+        {
+          "input_name": "",
+          "input_amount": 0
+        }
+      ],
+      "output": [
+        {
+          "output_name": "",
+          "output_amount": 0
+        }
+      ],
+      "base_recipe": "",
+      "itemID": "",
+      "required_items": [
+        ""
+      ],
+      "recipe_category": ""
+    }
+  ],
+  "modules": [
+    {
+      "module_name": "",
+      "variant": "",
+      "stack_size": 0,
+      "base_item": "",
+      "name": "",
+      "description": "",
+      "guid": "",
+      "category_name": "",
+      "factory_type": "",
+      "icon_path": "",
+      "categories": [
+        ""
+      ],
+      "first": false
+    }
+  ],
+  "stations": [
+    {
+      "factory_type": "",
+      "station_name": "",
+      "stack_size": 0,
+      "name": "",
+      "description": "",
+      "guid": "",
+      "icon_path": "",
+      "variant": "",
+      "categories": [
+        ""
+      ]
+    }
+  ],
+  "deposits": [
+    {
+      {
+        "underground": false,
+        "percent_replace": 0,
+        "output_name": "",
+        "yields": [
+          0,
+          0
+        ],
+        "replaced_item": ""
+      }
+    }
+  ],
+  "categories": [
+    {
+      "category_type": "",
+      "name": "",
+      "guid": ""
+    }
+  ]
+}

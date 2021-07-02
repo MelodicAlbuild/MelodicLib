@@ -1,0 +1,70 @@
+{
+  "manager": [
+    {
+      "id": 0,
+      "identifier": "items",
+      "settings": [
+        {
+          "limit": 0,
+          "variation": false
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": 1,
+      "identifier": "recipies",
+      "settings": [
+        {
+          "limit": 0,
+          "variation": false
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "identifier": "modules",
+      "settings": [
+        {
+          "limit": 0,
+          "variation": false
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": 3,
+      "identifier": "stations",
+      "settings": [
+        {
+          "limit": 0,
+          "variation": false
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": 4,
+      "identifier": "deposits",
+      "settings": [
+        {
+          "limit": 0,
+          "variation": false
+        }
+      ],
+      "enabled": false
+    },
+    {
+      "id": 5,
+      "identifier": "categories",
+      "settings": [
+        {
+          "limit": 0,
+          "variation": false
+        }
+      ],
+      "enabled": true
+    }
+  ]
+}

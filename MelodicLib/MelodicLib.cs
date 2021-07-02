@@ -17,21 +17,28 @@ namespace MelodicLib {
         public          ImportHandler importHandler      { get; }
         public          ExportHandler exportHandler      { get; }
         public          string        PersistentDataPath => Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods/" + modName;
+        public          string        LPSPath            => Environment.GetEnvironmentVariable("USERPROFILE") + "/appdata/locallow/volcanoid/volcanoids/MelodicMods";
 
         protected MelodicLib() {
+            Init();
+
             globalManager = new GlobalManager(this);
             globalStorage = new GlobalStorage(this);
             melodicLog    = new MelodicLog(this);
             melodicDict   = new MelodicDict(this);
             importHandler = new ImportHandler(this);
             exportHandler = new ExportHandler(this);
-
-            Init();
         }
 
         // Avoids virtual methods calls in the constructor.
         private void Init() {
-            if (!Directory.Exists(PersistentDataPath)) {
+            if(!Directory.Exists(LPSPath))
+            {
+                Directory.CreateDirectory(LPSPath);
+            }
+
+            if (!Directory.Exists(PersistentDataPath))
+            {
                 // Create Main Project Directory and Log
                 Directory.CreateDirectory(PersistentDataPath);
                 File.Create(PersistentDataPath + "/" + shortName + ".log");
@@ -45,6 +52,11 @@ namespace MelodicLib {
                 // Create Other Log Files
                 File.Create(PersistentDataPath + "/logs/Dict.log");
                 File.Create(PersistentDataPath + "/logs/Manager.log");
+            }
+
+            if(!File.Exists(Path.Combine(PersistentDataPath, "data", "manager.json")) || !File.Exists(Path.Combine(PersistentDataPath, "data", "data.json")))
+            {
+                new InitialJSON(this);
             }
         }
 
